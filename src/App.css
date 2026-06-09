@@ -10,6 +10,18 @@
   --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
 }
 
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --panel: #050505;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --accent: #ffffff;
+  --accent-strong: #d4d4d4;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.72);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -21,6 +33,11 @@ body {
     radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 35%),
     linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
   color: var(--text);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+body[data-theme="dark"] {
+  background: #000000;
 }
 
 .app {
@@ -31,7 +48,66 @@ body {
 }
 
 .hero {
+  position: relative;
   margin-bottom: 28px;
+}
+
+.theme-toggle-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.theme-toggle {
+  margin-top: 0;
+  padding: 0;
+  width: 52px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.12);
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(15, 23, 42, 0.18);
+}
+
+.theme-toggle.active {
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.theme-toggle-track {
+  width: 44px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.theme-toggle.active .theme-toggle-track {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.theme-toggle-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translateX(0);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-toggle.active .theme-toggle-thumb {
+  transform: translateX(22px);
+  background: #ffffff;
 }
 
 .eyebrow {
@@ -222,6 +298,56 @@ pre {
   font-family: inherit;
   line-height: 1.7;
   color: var(--text);
+}
+
+body[data-theme="dark"] .eyebrow {
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .result-box {
+  background: #050505;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body[data-theme="dark"] .upload-box {
+  background: #090909;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body[data-theme="dark"] textarea {
+  background: #0b0b0b;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.02);
+}
+
+body[data-theme="dark"] textarea::placeholder {
+  color: #6b7280;
+}
+
+body[data-theme="dark"] textarea:focus {
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+body[data-theme="dark"] .upload-plus {
+  background: linear-gradient(135deg, #1f1f1f, #000000);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+body[data-theme="dark"] .upload-plus:hover {
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.62);
+}
+
+body[data-theme="dark"] button:not(.theme-toggle) {
+  background: linear-gradient(135deg, #111111, #000000);
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.48);
+}
+
+body[data-theme="dark"] button:not(.theme-toggle):hover {
+  background: linear-gradient(135deg, #1a1a1a, #050505);
 }
 
 @media (max-width: 720px) {

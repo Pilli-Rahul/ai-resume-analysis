@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import FileUpload from "./components/FileUpload";
 import ResultBox from "./components/ResultBox";
@@ -9,6 +9,15 @@ function App() {
   const [jdText, setJdText] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  useEffect(() => {
+    document.body.setAttribute("data-theme", isDarkTheme ? "dark" : "light");
+
+    return () => {
+      document.body.removeAttribute("data-theme");
+    };
+  }, [isDarkTheme]);
 
   const handleAnalyze = async () => {
     if (!resumeText || !jdText) {
@@ -29,26 +38,39 @@ function App() {
     }
   };
   const handleClear = () => {
-  setResumeText("");
-  setJdText("");
-  setResult("");
-};
+    setResumeText("");
+    setJdText("");
+    setResult("");
+  };
 
-const handleDownload = () => {
-  const blob = new Blob([result], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
+  const handleDownload = () => {
+    const blob = new Blob([result], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "resume-analysis-report.txt";
-  a.click();
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "resume-analysis-report.txt";
+    a.click();
 
-  URL.revokeObjectURL(url);
-};
+    URL.revokeObjectURL(url);
+  };
 
   return (
-    <div className="app">
+    <div className={`app ${isDarkTheme ? "dark" : ""}`}>
       <div className="hero">
+        <div className="theme-toggle-wrap">
+          <button
+            type="button"
+            className={`theme-toggle ${isDarkTheme ? "active" : ""}`}
+            onClick={() => setIsDarkTheme((previous) => !previous)}
+            aria-label={isDarkTheme ? "Switch to light theme" : "Switch to dark theme"}
+            aria-pressed={isDarkTheme}
+          >
+            <span className="theme-toggle-track">
+              <span className="theme-toggle-thumb" />
+            </span>
+          </button>
+        </div>
         <p className="eyebrow">ATS Resume Review</p>
         <h1>AI Resume Analyzer</h1>
         <p className="subtitle">
@@ -81,15 +103,15 @@ const handleDownload = () => {
       <button onClick={handleAnalyze} disabled={loading}>
         {loading ? "Analyzing..." : "Analyze Resume"}
       </button>
-    <button onClick={handleClear} className="clear-btn">
-         Clear
-    </button>
+      <button onClick={handleClear} className="clear-btn">
+        Clear
+      </button>
 
-    {result && (
-    <button onClick={handleDownload} className="download-btn">
-        Download Report
-    </button>
-)}
+      {result && (
+        <button onClick={handleDownload} className="download-btn">
+          Download Report
+        </button>
+      )}
       {result && <ResultBox result={result} />}
     </div>
   );
